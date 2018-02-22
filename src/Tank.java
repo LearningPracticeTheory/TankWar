@@ -12,25 +12,23 @@ class Tank {
 	private final int AI_FIRE_LEVEL = parseInt("aiFireLevel");
 	private final int TANKS_NUM = parseInt("tanksRebornNum");
 	private final int MY_TANK_LIFE = parseInt("myTankLife");
-	
 	private int life = MY_TANK_LIFE;
-	
 	private int x, y;
 	private int oldX, oldY;
-	TankClient tc = null;
-	GunBarrel gb = null;
-	
+
 	private boolean live = true;
 	private boolean good; 
 	boolean bU = false, bD = false, bL = false, bR = false;
+
+	TankClient tc = null;
+	GunBarrel gb = null;
+	private BloodBar bb = new BloodBar();
 	
 	enum Direction {U, UL, UR, D, DL, DR, L, R, STOP};
 	Direction dir = Direction.STOP;
 	
 	private static Random r = new Random();
 	private static Direction dirs[] = Direction.values();
-	
-	private BloodBar bb = new BloodBar();
 	
 	public Tank(int x, int y, boolean good, TankClient tc) {
 		this.x = x;
@@ -40,17 +38,17 @@ class Tank {
 		gb = new GunBarrel(x + WIDTH / 2, y + HEIGHT / 2, this);
 		oldX = x;
 		oldY = y;
-//		tc.addKeyListener(new KeyMonitor());
-//System.out.println("gun barrel" + tc.gb);
 	}
 
 	public void draw(Graphics g) {
+
 		if(!live) {
 			if(!good) {
 				tc.tanks.remove(this);
 			}
 			return;
 		}
+		
 		Color c = g.getColor();
 		if(good) {
 			g.setColor(Color.RED);
@@ -60,7 +58,11 @@ class Tank {
 		}
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
-		if(gb != null) gb.draw(x + WIDTH / 2, y + HEIGHT / 2, g);
+		
+		if(gb != null) {
+			gb.draw(x + WIDTH / 2, y + HEIGHT / 2, g);
+		}
+		
 		AIDirection();
 		AIFire();
 		move();
@@ -105,13 +107,9 @@ class Tank {
 		else if(!bU && !bD && bL && !bR) dir = Direction.L;
 		else if(!bU && !bD && !bL && bR) dir = Direction.R;
 		else if(!bU && !bD && !bL && !bR) dir = Direction.STOP;
-		
-		
 	}
 	
 	public void move() {
-//System.out.println(dir);
-		
 		oldX = x;
 		oldY = y;
 		
@@ -187,8 +185,32 @@ class Tank {
 		return false;
 	}
 	
+	public void backStep() {
+		x = oldX;
+		y = oldY;
+	}
+	
+	public boolean collideWithWall(Wall w) {
+		if(this.getRect().intersects(w.getRect())) {
+			backStep();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean collideWithTanks(java.util.List<Tank> tanks) {
+		for(int i = 0; i < tanks.size(); i++) {
+			Tank t = tanks.get(i);
+			if(t != this && t.isLive() && this.getRect().intersects(t.getRect())) {
+				this.backStep();
+				t.backStep();
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 		switch(key) {
 		case KeyEvent.VK_UP :
@@ -205,15 +227,12 @@ class Tank {
 			break;
 		}
 		direction();
-		
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 		switch(key) {
 		case KeyEvent.VK_CONTROL :
-//			tc.m = fire();
 			if(live) {
 				tc.missiles.add(fire());
 			}
@@ -248,35 +267,8 @@ class Tank {
 			break;
 		}
 		direction();
-		
 	}
 
-	public void backStep() {
-		x = oldX;
-		y = oldY;
-	}
-	
-	public boolean collideWithWall(Wall w) {
-		if(this.getRect().intersects(w.getRect())) {
-//			dir = Direction.STOP;
-			backStep();
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean collideWithTanks(java.util.List<Tank> tanks) {
-		for(int i = 0; i < tanks.size(); i++) {
-			Tank t = tanks.get(i);
-			if(t != this && t.isLive() && this.getRect().intersects(t.getRect())) {
-				this.backStep();
-				t.backStep();
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	public boolean eatBlood(Blood b) {
 		if(this.isGood() && b.isLive() && this.getRect().intersects(b.getRect())) {
 			b.setLive(false);
@@ -284,10 +276,6 @@ class Tank {
 			return true;
 		}
 		return false;
-	}
-	
-	public Rectangle getRect() {
-		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 	
 	class BloodBar {
@@ -299,6 +287,10 @@ class Tank {
 			g.fillRect(x, y - 12, bloodWidth, 10);
 			g.setColor(c);
 		}
+	}
+	
+	public Rectangle getRect() {
+		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 	
 	private static int parseInt(String key) {

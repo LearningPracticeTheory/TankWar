@@ -1,4 +1,6 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.List;
 
 class Missile {
@@ -22,7 +24,6 @@ class Missile {
 	}
 	
 	public Missile(int x, int y, boolean good, Tank.Direction dir, TankClient tc) {
-		// TODO Auto-generated constructor stub
 		this(x, y, dir);
 		this.good = good;
 		this.tc = tc;
@@ -36,13 +37,11 @@ class Missile {
 		}
 		
 		Color c = g.getColor();
-		
 		if(good) {
 			g.setColor(new Color(255, 200, 255));//Pink
 		} else {
 			g.setColor(Color.GREEN);
 		}
-		
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		
@@ -50,8 +49,6 @@ class Missile {
 	}
 
 	private void move() {
-		// TODO Auto-generated method stub
-//System.out.println(dir);
 		switch(dir) {
 		case U :
 			y -= SPEED;

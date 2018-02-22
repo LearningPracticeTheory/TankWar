@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 class Explode {
 	
@@ -16,7 +17,6 @@ class Explode {
 	
 	public void draw(Graphics g) {
 		if(step == diameters.length) {
-//			step = 0;
 			return;
 		}
 		Color c = g.getColor();
@@ -24,7 +24,7 @@ class Explode {
 		for(int i = 0; i < diameters.length; i++) {
 			g.fillOval(x, y, diameters[step], diameters[step]);
 		}
-		step ++;
+		step++;
 		g.setColor(c);
 	}
 	

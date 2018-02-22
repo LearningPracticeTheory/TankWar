@@ -1,7 +1,7 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 class GunBarrel {
-
 
 	int x0, y0, x1, y1;
 	Tank t = null;
@@ -11,16 +11,14 @@ class GunBarrel {
 		x0 = x;
 		y0 = y;
 		this.t = t;
-//System.out.println("gun barrel dir " + dir);
 		dir = Tank.Direction.D;
 	}
 	
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-//System.out.println("Draw");
 		if(t.dir != Tank.Direction.STOP) {
 			dir = t.dir;
 		}
+		
 		direction();
 		Color c = g.getColor();
 		g.setColor(Color.WHITE);
@@ -39,7 +37,6 @@ class GunBarrel {
 		case U :
 			x1 = x0;
 			y1 = y0 - Tank.getHeight() / 2;
-//System.out.println("gun barrel dir " + dir);
 			break;
 		case UL :
 			x1 = x0 - Tank.getWidth() / 2;
@@ -74,6 +71,5 @@ class GunBarrel {
 			break;
 		}
 	}
-
 	
 }

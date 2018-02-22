@@ -1,4 +1,6 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 class Blood {
 	
@@ -34,7 +36,7 @@ class Blood {
 		position();
 		g.fillRect(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
-		step ++;
+		step++;
 	}
 	
 	public Rectangle getRect() {
@@ -48,7 +50,5 @@ class Blood {
 	public void setLive(boolean live) {
 		this.live = live;
 	}
-	
-	
 	
 }

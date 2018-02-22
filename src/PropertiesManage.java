@@ -9,7 +9,6 @@ class PropertiesManage {
 		try {
 			props.load(PropertiesManage.class.getClassLoader().getResourceAsStream("config/tank.properties"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 	}
@@ -17,7 +16,6 @@ class PropertiesManage {
 	private PropertiesManage() {};
 	
 	public static String getProperty(String key) {
-//		props.load(this.getClass().getClassLoader().getResourceAsStream("config/tank.properties"));
 		return props.getProperty(key);
 	}
 }
