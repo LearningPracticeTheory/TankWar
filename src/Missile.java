@@ -96,9 +96,11 @@ class Missile {
 	}
 	
 	public boolean hitTank(Tank t) {
-		if(this.getRect().intersects(t.getRect()) && t.isGood() != this.isGood()) {
+		if(this.getRect().intersects(t.getRect()) && t.isLive() && t.isGood() != this.isGood()) {
 			Explode e = new Explode(x, y, tc);
 			tc.explodes.add(e);
+			this.setLive(false);
+			t.setLive(false);
 			return true;
 		}
 		return false;
@@ -106,10 +108,7 @@ class Missile {
 	
 	public boolean hitTanks(List<Tank> tanks) {
 		for(int i = 0; i < tanks.size(); i++) {
-			Tank t = tanks.get(i);
-			if(hitTank(t) && t.isLive()) {
-				this.setLive(false);
-				t.setLive(false);
+			if(hitTank(tanks.get(i))) {
 				return true;
 			}
 		}
