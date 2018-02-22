@@ -14,8 +14,9 @@ public class TankClient extends JFrame {
 	
 	Image img = null;
 	
-	Tank myTank = new Tank(50, 50, this);
+	Tank myTank = new Tank(50, 50, true, this);
 //	Missile m = null;
+	Tank enemyTank = new Tank(100, 100, false, this);
 	
 	List<Missile> missiles = new ArrayList<Missile>();
 	
@@ -39,6 +40,7 @@ public class TankClient extends JFrame {
 	public void paint(Graphics g) {
 		super.paint(g);
 		myTank.draw(g);
+		enemyTank.draw(g);
 //		if(m != null) m.draw(g);
 		
 		for(int i = 0; i < missiles.size(); i++) {
