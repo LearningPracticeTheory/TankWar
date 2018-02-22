@@ -21,6 +21,44 @@ public class Missile {
 		g.setColor(Color.GREEN);
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
+		
+		move();
+	}
+
+	private void move() {
+		// TODO Auto-generated method stub
+		switch(dir) {
+		case U :
+			y -= SPEED;
+			break;
+		case UL :
+			x -= SPEED;
+			y -= SPEED;
+			break;
+		case UR :
+			x += SPEED;
+			y -= SPEED;
+			break;
+		case D :
+			y += SPEED;
+			break;
+		case DL :
+			x -= SPEED;
+			y += SPEED;
+			break;
+		case DR :
+			x += SPEED;
+			y += SPEED;
+			break;
+		case L :
+			x -= SPEED;
+			break;
+		case R :
+			x += SPEED;
+			break;
+		case STOP :
+			break;
+		}
 	}
 
 	public static int getWidth() {
@@ -31,5 +69,5 @@ public class Missile {
 		return HEIGHT;
 	}
 
-
+	
 }
