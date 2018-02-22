@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.*;
+
 import javax.swing.JFrame;
 
 public class TankClient extends JFrame {
@@ -25,6 +27,7 @@ public class TankClient extends JFrame {
 		getContentPane().setBackground(Color.BLACK);
 		setVisible(true);
 		new Thread(new PaintThread()).start();
+		addKeyListener(new KeyMonitor());
 	}
 
 	public void paint(Graphics g) {
@@ -34,7 +37,7 @@ public class TankClient extends JFrame {
 		g.fillOval(x, y, 30, 30);
 		g.setColor(c);
 		
-		y += 8;
+//		y += 8;
 	}
 	/*
 	@Override
@@ -63,6 +66,29 @@ public class TankClient extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+		}
+		
+	}
+	
+	private class KeyMonitor extends KeyAdapter {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+			switch(key) {
+			case KeyEvent.VK_UP :
+				y -= 8;
+				break;
+			case KeyEvent.VK_DOWN :
+				y += 8;
+				break;
+			case KeyEvent.VK_LEFT :
+				x -= 8;
+				break;
+			case KeyEvent.VK_RIGHT :
+				x += 8;
+				break;
 			}
 		}
 		
