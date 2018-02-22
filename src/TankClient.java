@@ -61,12 +61,13 @@ public class TankClient extends JFrame {
 		myTank.draw(g);
 		w1.draw(g);
 		w2.draw(g);
-//		enemyTank.draw(g);
+//		enemyTank.draw(g);aaa
 		for(int i = 0; i < tanks.size(); i++) {
 			Tank t = tanks.get(i);
 			t.draw(g);
 			t.collideWithWall(w1);
 			t.collideWithWall(w2);
+			t.collideWithTanks(tanks);
 		}
 		
 //		if(m != null) m.draw(g);
