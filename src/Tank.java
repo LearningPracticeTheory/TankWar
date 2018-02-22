@@ -1,10 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 class Tank {	 
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 30;
 	private static final int SPEED = 10;
+	private final int AI_MOVE_LEVEL = 2;//1~9
 	
 	private int x, y;
 	TankClient tc = null;
@@ -16,6 +18,9 @@ class Tank {
 	
 	enum Direction {U, UL, UR, D, DL, DR, L, R, STOP};
 	Direction dir = Direction.STOP;
+	
+	private static Random r = new Random();
+	private static Direction dirs[] = Direction.values();
 	
 	public Tank(int x, int y, boolean good, TankClient tc) {
 		this.x = x;
@@ -43,6 +48,7 @@ class Tank {
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		if(gb != null) gb.draw(x + WIDTH / 2, y + HEIGHT / 2, g);
+		AIDirection();
 		move();
 	}
 
@@ -52,7 +58,12 @@ class Tank {
 		return new Missile(x, y, gb.dir, tc);
 	}
 	
-
+	public void AIDirection() {
+		if(!good && r.nextInt(10) < AI_MOVE_LEVEL) {
+			dir = dirs[r.nextInt(dirs.length)];
+		}
+	}
+	
 	public void direction() {
 		if(bU && !bD && !bL && !bR) dir = Direction.U;
 		else if(bU && !bD && bL && !bR) dir = Direction.UL;
