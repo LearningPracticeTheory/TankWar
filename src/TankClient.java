@@ -42,7 +42,9 @@ public class TankClient extends JFrame {
 //		if(m != null) m.draw(g);
 		
 		for(int i = 0; i < missiles.size(); i++) {
-			missiles.get(i).draw(g);
+			if(missiles.get(i).isLive()) {
+				missiles.get(i).draw(g);
+			}
 		}
 		
 		Color c = g.getColor();
@@ -83,6 +85,7 @@ public class TankClient extends JFrame {
 		}
 		
 	}
+//key pressed && released on Tank will make more stable 
 	
 	private class KeyMonitor extends KeyAdapter {
 
@@ -97,5 +100,5 @@ public class TankClient extends JFrame {
 		}
 		
 	}
-
+	
 }
