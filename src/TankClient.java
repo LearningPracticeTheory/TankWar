@@ -9,13 +9,15 @@ public class TankClient extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public final int GAME_WIDTH = 800;
 	public final int GAME_HEIGHT = 600;
+	private final int TANK_FIRST_NUM = 5;
 	
 //	int x = 50, y = 50;
 	
 	Image img = null;
 	
 	Tank myTank = new Tank(50, 50, true, this);
-	Tank enemyTank = new Tank(100, 100, false, this);
+//	Tank enemyTank = new Tank(100, 100, false, this);
+	List<Tank> tanks = new ArrayList<Tank>();
 	
 //	Missile m = null;
 	List<Missile> missiles = new ArrayList<Missile>();
@@ -35,6 +37,11 @@ public class TankClient extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.BLACK);
 		setVisible(true);
+		
+		for(int i = 0; i < TANK_FIRST_NUM; i++) {
+			tanks.add(new Tank(50 + (i + 1) * 40, 50, false, this));
+		}
+		
 		new Thread(new PaintThread()).start();
 		addKeyListener(new KeyMonitor());
 	}
@@ -45,19 +52,26 @@ public class TankClient extends JFrame {
 		Color c = g.getColor();
 		g.setColor(Color.WHITE);
 		g.drawString("Missiles: " + missiles.size(), 10, 50);
+		g.drawString("Tanks:  	" + tanks.size(), 10, 70);
 		g.setColor(c);
 
 		myTank.draw(g);
-		enemyTank.draw(g);
+//		enemyTank.draw(g);
+		for(int i = 0; i < tanks.size(); i++) {
+			tanks.get(i).draw(g);
+		}
 		
 //		if(m != null) m.draw(g);
 		for(int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
 			m.draw(g);
+			/*
 			if(m.hitTank(enemyTank) && enemyTank.isLive()) {
 				m.setLive(false);
 				enemyTank.setLive(false);
 			}
+			*/
+			m.hitTanks(tanks);
 		}
 		
 //		explode.draw(g);
