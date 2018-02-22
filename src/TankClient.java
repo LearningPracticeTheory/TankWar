@@ -39,20 +39,24 @@ public class TankClient extends JFrame {
 
 	public void paint(Graphics g) {
 		super.paint(g);
+
+		Color c = g.getColor();
+		g.setColor(Color.WHITE);
+		g.drawString("Missiles: " + missiles.size(), 10, 50);
+		g.setColor(c);
+
 		myTank.draw(g);
 		enemyTank.draw(g);
 //		if(m != null) m.draw(g);
 		
 		for(int i = 0; i < missiles.size(); i++) {
-			if(missiles.get(i).isLive()) {
-				missiles.get(i).draw(g);
+			Missile m = missiles.get(i);
+			m.draw(g);
+			if(m.hitTank(enemyTank) && enemyTank.isLive()) {
+				m.setLive(false);
+				enemyTank.setLive(false);
 			}
 		}
-		
-		Color c = g.getColor();
-		g.setColor(Color.WHITE);
-		g.drawString("Missiles: " + missiles.size(), 10, 50);
-		g.setColor(c);
 		
 //		y += 8;
 	}
