@@ -1,5 +1,8 @@
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -9,7 +12,7 @@ public class TankClient extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public final int GAME_WIDTH = 800;
 	public final int GAME_HEIGHT = 600;
-	private final int TANK_FIRST_NUM = 5;
+//	private final int TANK_FIRST_NUM = 5;
 	
 //	int x = 50, y = 50;
 	
@@ -35,6 +38,17 @@ public class TankClient extends JFrame {
 	}
 	
 	TankClient() {
+		/*
+		Properties props = new Properties();
+		try {
+			props.load(this.getClass().getClassLoader().getResourceAsStream("config/tank.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int initTankNum = Integer.parseInt(props.getProperty("initTankNum"));
+		*/
+		int initTankNum = Integer.parseInt(PropertiesManage.getProperty("initTankNum"));
 //		setSize(800, 600);
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setTitle("TankWar");
@@ -44,7 +58,7 @@ public class TankClient extends JFrame {
 		getContentPane().setBackground(Color.BLACK);
 		setVisible(true);
 		
-		for(int i = 0; i < TANK_FIRST_NUM; i++) {
+		for(int i = 0; i < initTankNum; i++) {
 			tanks.add(new Tank(50 + (i + 1) * 40, 50, false, this));
 		}
 
