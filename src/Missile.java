@@ -88,6 +88,8 @@ class Missile {
 	
 	public boolean hitTank(Tank t) {
 		if(this.getRect().intersects(t.getRect())) {
+			Explode e = new Explode(x, y, tc);
+			tc.explodes.add(e);
 			return true;
 		}
 		return false;
