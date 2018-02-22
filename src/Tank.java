@@ -8,6 +8,7 @@ class Tank {
 	private static final int SPEED = 10;
 	private final int AI_MOVE_LEVEL = 2;//1~9
 	private final int AI_FIRE_LEVEL = 1;
+	private final int TANKS_NUM = 10;
 	
 	private int life = 100;
 	
@@ -151,6 +152,38 @@ class Tank {
 		
 	}
 	
+	public void tankReborn() {
+		for(int i = 0; i < TANKS_NUM; i++) {
+			int x = r.nextInt(tc.GAME_WIDTH - WIDTH);
+			int y = r.nextInt(tc.GAME_HEIGHT - HEIGHT);
+			Tank t = new Tank(x, y, false, tc);
+			if(!t.intersectInWalls(tc.walls) && !t.intersectInTanks(tc.tanks)) {
+				tc.tanks.add(t);
+			} else {
+				i--;
+			}
+		}
+	}
+	
+	public boolean intersectInWalls(java.util.List<Wall> walls) {
+		for(int i = 0; i < walls.size(); i++) {
+			if(this.getRect().intersects(walls.get(i).getRect())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean intersectInTanks(java.util.List<Tank> tanks) {
+		for(int i = 0; i < tanks.size(); i++) {
+			Tank t = tanks.get(i);
+			if(this != t && this.getRect().intersects(t.getRect())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
@@ -185,6 +218,17 @@ class Tank {
 		case KeyEvent.VK_A :
 			if(live) {
 				AFire();
+			}
+			break;
+		case KeyEvent.VK_F2 :
+			if(tc.tanks.size() == 0) {
+				tankReborn();
+			}
+			break;
+		case KeyEvent.VK_F5 :
+			if(tc.myTank.getLife() <= 0) {
+				tc.myTank.setLive(true);
+				tc.myTank.setLife(100);
 			}
 			break;
 		case KeyEvent.VK_UP :
