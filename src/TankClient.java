@@ -15,10 +15,12 @@ public class TankClient extends JFrame {
 	Image img = null;
 	
 	Tank myTank = new Tank(50, 50, true, this);
-//	Missile m = null;
 	Tank enemyTank = new Tank(100, 100, false, this);
 	
+//	Missile m = null;
 	List<Missile> missiles = new ArrayList<Missile>();
+//	Explode explode = new Explode(100, 100, this);
+	List<Explode> explodes = new ArrayList<Explode>();
 	
 	public static void main(String args[]) {
 		new TankClient();
@@ -47,8 +49,8 @@ public class TankClient extends JFrame {
 
 		myTank.draw(g);
 		enemyTank.draw(g);
-//		if(m != null) m.draw(g);
 		
+//		if(m != null) m.draw(g);
 		for(int i = 0; i < missiles.size(); i++) {
 			Missile m = missiles.get(i);
 			m.draw(g);
@@ -56,6 +58,11 @@ public class TankClient extends JFrame {
 				m.setLive(false);
 				enemyTank.setLive(false);
 			}
+		}
+		
+//		explode.draw(g);
+		for(int i = 0; i < explodes.size(); i++) {
+			explodes.get(i).draw(g);
 		}
 		
 //		y += 8;
