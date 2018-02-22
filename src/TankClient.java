@@ -1,17 +1,21 @@
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-public class TankClient extends JFrame {
+public class TankClient extends Frame {
 	
 	private static final long serialVersionUID = 1L;
 	public final int GAME_WIDTH = 800;
 	public final int GAME_HEIGHT = 600;
+	
+	Image img = null;
 	
 	Blood b = new Blood(this);
 	Tank myTank = new Tank(50, 50, true, this);
@@ -33,9 +37,16 @@ public class TankClient extends JFrame {
 		setTitle("TankWar");
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().setBackground(Color.BLACK);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		getContentPane().setBackground(Color.BLACK);
+		setBackground(Color.BLACK);
 		setVisible(true);
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
 		
 		int initTankNum = Integer.parseInt(PropertiesManage.getProperty("initTankNum"));
 		for(int i = 0; i < initTankNum; i++) {
@@ -50,7 +61,14 @@ public class TankClient extends JFrame {
 	}
 
 	public void paint(Graphics g) {
-		super.paint(g);
+//		super.paint(g);
+
+		Color c = g.getColor();
+		g.setColor(Color.WHITE);
+		g.drawString("Missiles count:" + missiles.size(), 10, 50);
+		g.drawString("Tanks count:" + tanks.size(), 10, 70);
+		g.drawString("myTank's life:" + myTank.getLife(), 10, 90);
+		g.setColor(c);
 
 		myTank.draw(g);
 		w1.draw(g);
@@ -81,23 +99,35 @@ public class TankClient extends JFrame {
 			explodes.get(i).draw(g);
 		}
 		
-		Color c = g.getColor();
-		g.setColor(Color.WHITE);
-		g.drawString("Missiles count:" + missiles.size(), 10, 50);
-		g.drawString("Tanks count:" + tanks.size(), 10, 70);
-		g.drawString("myTank's life:" + myTank.getLife(), 10, 90);
-		g.setColor(c);
+		
+	}
 
+	@Override
+	public void update(Graphics g) {
+		if(img == null) {
+//			img = this.createImage(WIDTH, HEIGHT);
+			img = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+		}
+		Graphics offScreenGraphics = img.getGraphics();
+		Color c = offScreenGraphics.getColor();
+		offScreenGraphics.setColor(Color.BLACK);
+//		offScreenGraphics.fillRect(0, 0, WIDTH, HEIGHT);
+		offScreenGraphics.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		offScreenGraphics.setColor(c);
+		paint(offScreenGraphics);
+		g.drawImage(img, 0, 0, null);
 	}
 
 	private class PaintThread implements Runnable {
+		private boolean flag = true;
 		public void run() {
-			while(true) {
+			while(flag) {
 				repaint();
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+					flag = false;
 				}
 			}
 		}
