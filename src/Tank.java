@@ -7,6 +7,7 @@ class Tank {
 	private static final int HEIGHT = 30;
 	private static final int SPEED = 10;
 	private final int AI_MOVE_LEVEL = 2;//1~9
+	private final int AI_FIRE_LEVEL = 1;
 	
 	private int x, y;
 	TankClient tc = null;
@@ -49,13 +50,23 @@ class Tank {
 		g.setColor(c);
 		if(gb != null) gb.draw(x + WIDTH / 2, y + HEIGHT / 2, g);
 		AIDirection();
+		AIFire();
 		move();
 	}
 
+	public void AIFire() {
+		if(!good && r.nextInt(10) < AI_FIRE_LEVEL) {
+			tc.missiles.add(fire());
+		}
+	}
+	
 	public Missile fire() {
 		int x = this.x + WIDTH / 2 - Missile.getWidth() / 2;
 		int y = this.y + HEIGHT / 2 - Missile.getHeight() / 2;
-		return new Missile(x, y, gb.dir, tc);
+		if(good) {
+			return new Missile(x, y, true, gb.dir, tc);
+		}
+		return new Missile(x, y, false, gb.dir, tc);
 	}
 	
 	public void AIDirection() {
@@ -188,6 +199,10 @@ class Tank {
 
 	public void setLive(boolean live) {
 		this.live = live;
+	}
+
+	public boolean isGood() {
+		return good;
 	}
 
 }
