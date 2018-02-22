@@ -79,6 +79,11 @@ public class TankClient extends JFrame {
 		public void keyPressed(KeyEvent e) {
 			myTank.keyPressed(e);
 		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			myTank.keyReleased(e);
+		}
 		
 	}
 
