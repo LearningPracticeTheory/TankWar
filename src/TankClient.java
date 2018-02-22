@@ -18,6 +18,8 @@ public class TankClient extends JFrame {
 	Wall w1 = new Wall(300, 100, 300, 30, this);
 	Wall w2 = new Wall(200, 250, 30, 200, this);
 	
+	Blood b = new Blood(this);
+	
 	Tank myTank = new Tank(50, 50, true, this);
 //	Tank enemyTank = new Tank(100, 100, false, this);
 	List<Tank> tanks = new ArrayList<Tank>();
@@ -62,6 +64,7 @@ public class TankClient extends JFrame {
 		myTank.draw(g);
 		w1.draw(g);
 		w2.draw(g);
+		b.draw(g);
 //		enemyTank.draw(g);
 		for(int i = 0; i < tanks.size(); i++) {
 			Tank t = tanks.get(i);
@@ -72,6 +75,7 @@ public class TankClient extends JFrame {
 		}
 		
 		myTank.collideWithTanks(tanks);
+		myTank.eatBlood(b);
 		
 //		if(m != null) m.draw(g);
 		for(int i = 0; i < missiles.size(); i++) {
