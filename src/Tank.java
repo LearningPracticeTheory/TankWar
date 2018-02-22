@@ -24,7 +24,7 @@ public class Tank {
 	public void draw(Graphics g) {
 		Color c = g.getColor();
 		g.setColor(Color.RED);
-		g.fillOval(x, y, 30, 30);
+		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		
 		move();
