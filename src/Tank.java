@@ -72,6 +72,14 @@ class Tank {
 		return new Missile(x, y, false, gb.dir, tc);
 	}
 	
+	public void AFire() {
+		int x = this.x + WIDTH / 2 - Missile.getWidth() / 2;
+		int y = this.y + HEIGHT / 2 - Missile.getHeight() / 2;
+		for(int i = 0; i < dirs.length - 1; i++) {
+			tc.missiles.add(new Missile(x, y, true, dirs[i], tc));
+		}
+	}
+	
 	public void AIDirection() {
 		if(!good && r.nextInt(10) < AI_MOVE_LEVEL) {
 			dir = dirs[r.nextInt(dirs.length)];
@@ -167,6 +175,11 @@ class Tank {
 //			tc.m = fire();
 			if(live) {
 				tc.missiles.add(fire());
+			}
+			break;
+		case KeyEvent.VK_A :
+			if(live) {
+				AFire();
 			}
 			break;
 		case KeyEvent.VK_UP :
