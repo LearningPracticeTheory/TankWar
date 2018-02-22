@@ -15,6 +15,9 @@ public class TankClient extends JFrame {
 	
 	Image img = null;
 	
+	Wall w1 = new Wall(300, 100, 300, 30, this);
+	Wall w2 = new Wall(200, 250, 30, 200, this);
+	
 	Tank myTank = new Tank(50, 50, true, this);
 //	Tank enemyTank = new Tank(100, 100, false, this);
 	List<Tank> tanks = new ArrayList<Tank>();
@@ -56,9 +59,14 @@ public class TankClient extends JFrame {
 		g.setColor(c);
 
 		myTank.draw(g);
+		w1.draw(g);
+		w2.draw(g);
 //		enemyTank.draw(g);
 		for(int i = 0; i < tanks.size(); i++) {
-			tanks.get(i).draw(g);
+			Tank t = tanks.get(i);
+			t.draw(g);
+			t.collideWithWall(w1);
+			t.collideWithWall(w2);
 		}
 		
 //		if(m != null) m.draw(g);
@@ -73,6 +81,8 @@ public class TankClient extends JFrame {
 			*/
 			m.hitTanks(tanks);
 			m.hitTank(myTank);
+			m.hitWall(w1);
+			m.hitWall(w2);
 		}
 		
 //		explode.draw(g);
