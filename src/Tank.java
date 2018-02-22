@@ -1,8 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
-class Tank {
-	
+class Tank {	 
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 30;
 	private static final int SPEED = 10;
@@ -21,6 +20,7 @@ class Tank {
 		this.y = y;
 		this.tc = tc;
 		gb = new GunBarrel(x + WIDTH / 2, y + HEIGHT / 2, this);
+//		tc.addKeyListener(new KeyMonitor());
 //System.out.println("gun barrel" + tc.gb);
 	}
 
@@ -36,56 +36,10 @@ class Tank {
 	public Missile fire() {
 		int x = this.x + WIDTH / 2 - Missile.getWidth() / 2;
 		int y = this.y + HEIGHT / 2 - Missile.getHeight() / 2;
-		return new Missile(x, y, gb.dir);
-	}
-	
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		int key = e.getKeyCode();
-		switch(key) {
-		case KeyEvent.VK_CONTROL :
-//			tc.m = fire();
-			tc.missiles.add(fire());
-			break;
-		case KeyEvent.VK_UP :
-			bU = true;
-			break;
-		case KeyEvent.VK_DOWN :
-			bD = true;
-			break;
-		case KeyEvent.VK_LEFT :
-			bL = true;
-			break;
-		case KeyEvent.VK_RIGHT :
-			bR = true;
-			break;
-		}
-		direction();
-		
+		return new Missile(x, y, gb.dir, tc);
 	}
 	
 	
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		int key = e.getKeyCode();
-		switch(key) {
-		case KeyEvent.VK_UP :
-			bU = false;
-			break;
-		case KeyEvent.VK_DOWN :
-			bD = false;
-			break;
-		case KeyEvent.VK_LEFT :
-			bL = false;
-			break;
-		case KeyEvent.VK_RIGHT :
-			bR = false;
-			break;
-		}
-		direction();
-
-		
-	}
 
 	public void direction() {
 		if(bU && !bD && !bL && !bR) dir = Direction.U;
@@ -97,9 +51,12 @@ class Tank {
 		else if(!bU && !bD && bL && !bR) dir = Direction.L;
 		else if(!bU && !bD && !bL && bR) dir = Direction.R;
 		else if(!bU && !bD && !bL && !bR) dir = Direction.STOP;
+		
+		
 	}
 	
 	public void move() {
+//System.out.println(dir);
 		switch(dir) {
 		case U :
 			y -= SPEED;
@@ -132,6 +89,58 @@ class Tank {
 		case STOP :
 			break;
 		}
+		
+		if(x < 0) x = 0;
+		if(y < 30) y = 30;
+		if(x > tc.GAME_WIDTH - WIDTH) x = tc.GAME_WIDTH - WIDTH;
+		if(y > tc.GAME_HEIGHT - HEIGHT) y = tc.GAME_HEIGHT - HEIGHT;
+		
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int key = e.getKeyCode();
+		switch(key) {
+		case KeyEvent.VK_UP :
+			bU = true;
+			break;
+		case KeyEvent.VK_DOWN :
+			bD = true;
+			break;
+		case KeyEvent.VK_LEFT :
+			bL = true;
+			break;
+		case KeyEvent.VK_RIGHT :
+			bR = true;
+			break;
+		}
+		direction();
+		
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int key = e.getKeyCode();
+		switch(key) {
+		case KeyEvent.VK_CONTROL :
+//				tc.m = fire();
+			tc.missiles.add(fire());
+			break;
+		case KeyEvent.VK_UP :
+			bU = false;
+			break;
+		case KeyEvent.VK_DOWN :
+			bD = false;
+			break;
+		case KeyEvent.VK_LEFT :
+			bL = false;
+			break;
+		case KeyEvent.VK_RIGHT :
+			bR = false;
+			break;
+		}
+		direction();
+		
 	}
 
 	public static int getSpeed() {
@@ -146,5 +155,4 @@ class Tank {
 		return HEIGHT;
 	}
 
-	
 }
