@@ -72,6 +72,7 @@ public class TankClient extends JFrame {
 			}
 			*/
 			m.hitTanks(tanks);
+			m.hitTank(myTank);
 		}
 		
 //		explode.draw(g);
