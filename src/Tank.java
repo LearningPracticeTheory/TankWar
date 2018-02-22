@@ -9,6 +9,8 @@ class Tank {
 	private final int AI_MOVE_LEVEL = 2;//1~9
 	private final int AI_FIRE_LEVEL = 1;
 	
+	private int life = 100;
+	
 	private int x, y;
 	private int oldX, oldY;
 	TankClient tc = null;
@@ -23,6 +25,8 @@ class Tank {
 	
 	private static Random r = new Random();
 	private static Direction dirs[] = Direction.values();
+	
+	private BloodBar bb = new BloodBar();
 	
 	public Tank(int x, int y, boolean good, TankClient tc) {
 		this.x = x;
@@ -46,6 +50,7 @@ class Tank {
 		Color c = g.getColor();
 		if(good) {
 			g.setColor(Color.RED);
+			bb.draw(g);
 		} else {
 			g.setColor(Color.BLUE);
 		}
@@ -229,6 +234,17 @@ class Tank {
 		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
 	
+	class BloodBar {
+		public void draw(Graphics g) {
+			Color c = g.getColor();
+			g.setColor(Color.RED);
+			g.drawRect(x, y - 12, WIDTH, 10);
+			int bloodWidth = WIDTH * life / 100;
+			g.fillRect(x, y - 12, bloodWidth, 10);
+			g.setColor(c);
+		}
+	}
+	
 	public static int getSpeed() {
 		return SPEED;
 	}
@@ -251,6 +267,14 @@ class Tank {
 
 	public boolean isGood() {
 		return good;
+	}
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
 	}
 
 }
