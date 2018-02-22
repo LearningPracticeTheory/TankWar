@@ -15,11 +15,19 @@ public class TankClient extends JFrame {
 //		setSize(800, 600);
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 		setTitle("TankWar");
-		getContentPane().setBackground(Color.BLACK);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		getContentPane().setBackground(Color.BLACK);
 		setVisible(true);
+	}
+
+	public void paint(Graphics g) {
+		super.paint(g);
+		Color c = g.getColor();
+		g.setColor(Color.RED);
+		g.fillOval(50, 50, 30, 30);
+		g.setColor(c);
 	}
 	
 }
