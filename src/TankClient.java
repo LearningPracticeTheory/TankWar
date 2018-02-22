@@ -17,6 +17,7 @@ public class TankClient extends JFrame {
 	
 	Wall w1 = new Wall(300, 100, 300, 30, this);
 	Wall w2 = new Wall(200, 250, 30, 200, this);
+	List<Wall> walls = new ArrayList<Wall>();
 	
 	Blood b = new Blood(this);
 	
@@ -46,6 +47,9 @@ public class TankClient extends JFrame {
 		for(int i = 0; i < TANK_FIRST_NUM; i++) {
 			tanks.add(new Tank(50 + (i + 1) * 40, 50, false, this));
 		}
+
+		walls.add(w1);
+		walls.add(w2);
 		
 		new Thread(new PaintThread()).start();
 		addKeyListener(new KeyMonitor());
