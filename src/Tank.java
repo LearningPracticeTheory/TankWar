@@ -10,15 +10,17 @@ class Tank {
 	TankClient tc = null;
 	GunBarrel gb = null;
 	
+	private boolean good; 
 	boolean bU = false, bD = false, bL = false, bR = false;
 	
 	enum Direction {U, UL, UR, D, DL, DR, L, R, STOP};
 	Direction dir = Direction.STOP;
 	
-	public Tank(int x, int y, TankClient tc) {
+	public Tank(int x, int y, boolean good, TankClient tc) {
 		this.x = x;
 		this.y = y;
 		this.tc = tc;
+		this.good = good;
 		gb = new GunBarrel(x + WIDTH / 2, y + HEIGHT / 2, this);
 //		tc.addKeyListener(new KeyMonitor());
 //System.out.println("gun barrel" + tc.gb);
@@ -26,7 +28,11 @@ class Tank {
 
 	public void draw(Graphics g) {
 		Color c = g.getColor();
-		g.setColor(Color.RED);
+		if(good) {
+			g.setColor(Color.RED);
+		} else {
+			g.setColor(Color.BLUE);
+		}
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		if(gb != null) gb.draw(x + WIDTH / 2, y + HEIGHT / 2, g);
