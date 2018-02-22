@@ -14,6 +14,7 @@ public class TankClient extends JFrame {
 	Image img = null;
 	
 	Tank myTank = new Tank(50, 50, this);
+	Missile m = null;
 	
 	public static void main(String args[]) {
 		new TankClient();
@@ -27,9 +28,6 @@ public class TankClient extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.BLACK);
-		
-		
-		
 		setVisible(true);
 		new Thread(new PaintThread()).start();
 		addKeyListener(new KeyMonitor());
@@ -38,7 +36,7 @@ public class TankClient extends JFrame {
 	public void paint(Graphics g) {
 		super.paint(g);
 		myTank.draw(g);
-		
+		if(m != null) m.draw(g);
 //		y += 8;
 	}
 	/*
