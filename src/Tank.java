@@ -3,7 +3,9 @@ import java.awt.event.*;
 
 public class Tank {
 	
-	public static final int SPEED = 10;
+	private static final int WIDTH = 30;
+	private static final int HEIGHT = 30;
+	private static final int SPEED = 10;
 	
 	private int x, y;
 	TankClient tc = null;
@@ -28,10 +30,19 @@ public class Tank {
 		move();
 	}
 
+	public Missile fire() {
+		int x = this.x + WIDTH / 2 - Missile.getWidth() / 2;
+		int y = this.y + HEIGHT / 2 - Missile.getHeight() / 2;
+		return new Missile(x, y, dir);
+	}
+	
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int key = e.getKeyCode();
 		switch(key) {
+		case KeyEvent.VK_CONTROL :
+			tc.m = fire();
+			break;
 		case KeyEvent.VK_UP :
 			bU = true;
 			break;
@@ -117,6 +128,10 @@ public class Tank {
 		case STOP :
 			break;
 		}
+	}
+
+	public static int getSpeed() {
+		return SPEED;
 	}
 
 	
