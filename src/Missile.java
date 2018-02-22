@@ -10,6 +10,7 @@ class Missile {
 	private static final int SPEED = Tank.getSpeed() * 2;
 
 	private boolean live = true;
+	private boolean good;
 	
 	Tank.Direction dir = null;
 	TankClient tc = null;
@@ -20,9 +21,10 @@ class Missile {
 		this.dir = dir;
 	}
 	
-	public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
+	public Missile(int x, int y, boolean good, Tank.Direction dir, TankClient tc) {
 		// TODO Auto-generated constructor stub
 		this(x, y, dir);
+		this.good = good;
 		this.tc = tc;
 	}
 
@@ -34,7 +36,13 @@ class Missile {
 		}
 		
 		Color c = g.getColor();
-		g.setColor(Color.GREEN);
+		
+		if(good) {
+			g.setColor(new Color(255, 200, 255));//Pink
+		} else {
+			g.setColor(Color.GREEN);
+		}
+		
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		
@@ -88,7 +96,7 @@ class Missile {
 	}
 	
 	public boolean hitTank(Tank t) {
-		if(this.getRect().intersects(t.getRect())) {
+		if(this.getRect().intersects(t.getRect()) && t.isGood() != this.isGood()) {
 			Explode e = new Explode(x, y, tc);
 			tc.explodes.add(e);
 			return true;
@@ -122,6 +130,10 @@ class Missile {
 
 	public void setLive(boolean live) {
 		this.live = live;
+	}
+
+	public boolean isGood() {
+		return good;
 	}
 
 	
