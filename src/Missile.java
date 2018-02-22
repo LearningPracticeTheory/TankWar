@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.List;
 
 class Missile {
 	
@@ -91,6 +92,18 @@ class Missile {
 			Explode e = new Explode(x, y, tc);
 			tc.explodes.add(e);
 			return true;
+		}
+		return false;
+	}
+	
+	public boolean hitTanks(List<Tank> tanks) {
+		for(int i = 0; i < tanks.size(); i++) {
+			Tank t = tanks.get(i);
+			if(hitTank(t) && t.isLive()) {
+				this.setLive(false);
+				t.setLive(false);
+				return true;
+			}
 		}
 		return false;
 	}
