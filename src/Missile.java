@@ -8,7 +8,10 @@ class Missile {
 	int x, y;
 	private static final int SPEED = Tank.getSpeed() * 2;
 
-	Tank.Direction dir = null; 
+	private boolean live = true;
+	
+	Tank.Direction dir = null;
+	TankClient tc = null;
 	
 	public Missile(int x, int y, Tank.Direction dir) {
 		this.x = x;
@@ -16,6 +19,12 @@ class Missile {
 		this.dir = dir;
 	}
 	
+	public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
+		// TODO Auto-generated constructor stub
+		this(x, y, dir);
+		this.tc = tc;
+	}
+
 	public void draw(Graphics g) {
 		Color c = g.getColor();
 		g.setColor(Color.GREEN);
@@ -27,6 +36,7 @@ class Missile {
 
 	private void move() {
 		// TODO Auto-generated method stub
+//System.out.println(dir);
 		switch(dir) {
 		case U :
 			y -= SPEED;
@@ -59,6 +69,12 @@ class Missile {
 		case STOP :
 			break;
 		}
+		
+		if(x <= 0 || y <= 0 || x >= tc.GAME_WIDTH || y >= tc.GAME_HEIGHT) {
+			this.setLive(false);
+			tc.missiles.remove(this);
+		}
+		
 	}
 
 	public static int getWidth() {
@@ -67,6 +83,14 @@ class Missile {
 
 	public static int getHeight() {
 		return HEIGHT;
+	}
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
 	}
 
 	
