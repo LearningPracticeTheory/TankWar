@@ -1,16 +1,19 @@
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 class Tank {	 
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 30;
-	private static final int SPEED = 10;
-	private final int AI_MOVE_LEVEL = 2;//1~9
-	private final int AI_FIRE_LEVEL = 1;
-	private final int TANKS_NUM = 10;
+	private static final int SPEED = parseInt("tankSpeed");
+	private final int AI_MOVE_LEVEL = parseInt("aiMoveLevel");//1~9
+	private final int AI_FIRE_LEVEL = parseInt("aiFireLevel");
+	private final int TANKS_NUM = parseInt("tanksRebornNum");
+	private final int MY_TANK_LIFE = parseInt("myTankLife");
 	
-	private int life = 100;
+	private int life = MY_TANK_LIFE;
 	
 	private int x, y;
 	private int oldX, oldY;
@@ -277,7 +280,7 @@ class Tank {
 	public boolean eatBlood(Blood b) {
 		if(this.isGood() && b.isLive() && this.getRect().intersects(b.getRect())) {
 			b.setLive(false);
-			this.life = 100;
+			this.life = MY_TANK_LIFE;
 			return true;
 		}
 		return false;
@@ -292,10 +295,14 @@ class Tank {
 			Color c = g.getColor();
 			g.setColor(Color.RED);
 			g.drawRect(x, y - 12, WIDTH, 10);
-			int bloodWidth = WIDTH * life / 100;
+			int bloodWidth = WIDTH * life / MY_TANK_LIFE;
 			g.fillRect(x, y - 12, bloodWidth, 10);
 			g.setColor(c);
 		}
+	}
+	
+	private static int parseInt(String key) {
+		return Integer.parseInt(PropertiesManage.getProperty(key));
 	}
 	
 	public static int getSpeed() {
