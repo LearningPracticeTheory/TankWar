@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 
 public class TankClient extends JFrame {
@@ -13,7 +15,9 @@ public class TankClient extends JFrame {
 	Image img = null;
 	
 	Tank myTank = new Tank(50, 50, this);
-	Missile m = null;
+//	Missile m = null;
+	
+	List<Missile> missiles = new ArrayList<Missile>();
 	
 	public static void main(String args[]) {
 		new TankClient();
@@ -35,7 +39,17 @@ public class TankClient extends JFrame {
 	public void paint(Graphics g) {
 		super.paint(g);
 		myTank.draw(g);
-		if(m != null) m.draw(g);
+//		if(m != null) m.draw(g);
+		
+		for(int i = 0; i < missiles.size(); i++) {
+			missiles.get(i).draw(g);
+		}
+		
+		Color c = g.getColor();
+		g.setColor(Color.WHITE);
+		g.drawString("Missiles: " + missiles.size(), 10, 50);
+		g.setColor(c);
+		
 //		y += 8;
 	}
 	/*
