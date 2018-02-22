@@ -54,14 +54,15 @@ public class TankClient extends JFrame {
 
 		Color c = g.getColor();
 		g.setColor(Color.WHITE);
-		g.drawString("Missiles: " + missiles.size(), 10, 50);
-		g.drawString("Tanks:  	" + tanks.size(), 10, 70);
+		g.drawString("Missiles count:" + missiles.size(), 10, 50);
+		g.drawString("Tanks count:" + tanks.size(), 10, 70);
+		g.drawString("myTank's life:" + myTank.getLife(), 10, 90);
 		g.setColor(c);
 
 		myTank.draw(g);
 		w1.draw(g);
 		w2.draw(g);
-//		enemyTank.draw(g);aaa
+//		enemyTank.draw(g);
 		for(int i = 0; i < tanks.size(); i++) {
 			Tank t = tanks.get(i);
 			t.draw(g);
@@ -69,6 +70,8 @@ public class TankClient extends JFrame {
 			t.collideWithWall(w2);
 			t.collideWithTanks(tanks);
 		}
+		
+		myTank.collideWithTanks(tanks);
 		
 //		if(m != null) m.draw(g);
 		for(int i = 0; i < missiles.size(); i++) {
