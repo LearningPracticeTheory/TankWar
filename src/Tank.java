@@ -10,6 +10,7 @@ class Tank {
 	TankClient tc = null;
 	GunBarrel gb = null;
 	
+	private boolean live = true;
 	private boolean good; 
 	boolean bU = false, bD = false, bL = false, bR = false;
 	
@@ -27,6 +28,9 @@ class Tank {
 	}
 
 	public void draw(Graphics g) {
+		if(!live) {
+			return;
+		}
 		Color c = g.getColor();
 		if(good) {
 			g.setColor(Color.RED);
@@ -149,6 +153,10 @@ class Tank {
 		
 	}
 
+	public Rectangle getRect() {
+		return new Rectangle(x, y, WIDTH, HEIGHT);
+	}
+	
 	public static int getSpeed() {
 		return SPEED;
 	}
@@ -159,6 +167,14 @@ class Tank {
 
 	public static int getHeight() {
 		return HEIGHT;
+	}
+
+	public boolean isLive() {
+		return live;
+	}
+
+	public void setLive(boolean live) {
+		this.live = live;
 	}
 
 }
