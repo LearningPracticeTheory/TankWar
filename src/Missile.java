@@ -115,6 +115,14 @@ class Missile {
 		return false;
 	}
 	
+	public boolean hitWall(Wall w) {
+		if(this.getRect().intersects(w.getRect())) {
+			this.setLive(false);
+			return true;
+		}
+		return false;
+	}
+	
 	public static int getWidth() {
 		return WIDTH;
 	}
