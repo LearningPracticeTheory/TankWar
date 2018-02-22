@@ -10,6 +10,7 @@ class Tank {
 	private final int AI_FIRE_LEVEL = 1;
 	
 	private int x, y;
+	private int oldX, oldY;
 	TankClient tc = null;
 	GunBarrel gb = null;
 	
@@ -29,6 +30,8 @@ class Tank {
 		this.tc = tc;
 		this.good = good;
 		gb = new GunBarrel(x + WIDTH / 2, y + HEIGHT / 2, this);
+		oldX = x;
+		oldY = y;
 //		tc.addKeyListener(new KeyMonitor());
 //System.out.println("gun barrel" + tc.gb);
 	}
@@ -91,6 +94,10 @@ class Tank {
 	
 	public void move() {
 //System.out.println(dir);
+		
+		oldX = x;
+		oldY = y;
+		
 		switch(dir) {
 		case U :
 			y -= SPEED;
@@ -179,6 +186,20 @@ class Tank {
 		
 	}
 
+	public void backStep() {
+		x = oldX;
+		y = oldY;
+	}
+	
+	public boolean collideWithWall(Wall w) {
+		if(this.getRect().intersects(w.getRect())) {
+//			dir = Direction.STOP;
+			backStep();
+			return true;
+		}
+		return false;
+	}
+	
 	public Rectangle getRect() {
 		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
