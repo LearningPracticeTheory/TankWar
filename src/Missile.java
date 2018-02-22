@@ -99,8 +99,15 @@ class Missile {
 		if(this.getRect().intersects(t.getRect()) && t.isLive() && t.isGood() != this.isGood()) {
 			Explode e = new Explode(x, y, tc);
 			tc.explodes.add(e);
+			if(t.isGood()) {
+				t.setLife(t.getLife() - 20);
+				if(t.getLife() <= 0) {
+					t.setLive(false);
+				}
+			} else {
+				t.setLive(false);
+			}
 			this.setLive(false);
-			t.setLive(false);
 			return true;
 		}
 		return false;
