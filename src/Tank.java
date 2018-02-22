@@ -44,7 +44,8 @@ class Tank {
 		int key = e.getKeyCode();
 		switch(key) {
 		case KeyEvent.VK_CONTROL :
-			tc.m = fire();
+//			tc.m = fire();
+			tc.missiles.add(fire());
 			break;
 		case KeyEvent.VK_UP :
 			bU = true;
