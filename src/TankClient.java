@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.JFrame;
 
 public class TankClient extends JFrame {
