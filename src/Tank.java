@@ -200,6 +200,18 @@ class Tank {
 		return false;
 	}
 	
+	public boolean collideWithTanks(java.util.List<Tank> tanks) {
+		for(int i = 0; i < tanks.size(); i++) {
+			Tank t = tanks.get(i);
+			if(t != this && t.isLive() && this.getRect().intersects(t.getRect())) {
+				this.backStep();
+				t.backStep();
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Rectangle getRect() {
 		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
