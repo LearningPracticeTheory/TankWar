@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
-public class Tank {
+class Tank {
 	
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 30;
@@ -9,6 +9,7 @@ public class Tank {
 	
 	private int x, y;
 	TankClient tc = null;
+	GunBarrel gb = null;
 	
 	boolean bU = false, bD = false, bL = false, bR = false;
 	
@@ -19,6 +20,8 @@ public class Tank {
 		this.x = x;
 		this.y = y;
 		this.tc = tc;
+		gb = new GunBarrel(x + WIDTH / 2, y + HEIGHT / 2, this);
+//System.out.println("gun barrel" + tc.gb);
 	}
 
 	public void draw(Graphics g) {
@@ -26,14 +29,14 @@ public class Tank {
 		g.setColor(Color.RED);
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
-		
+		if(gb != null) gb.draw(x + WIDTH / 2, y + HEIGHT / 2, g);
 		move();
 	}
 
 	public Missile fire() {
 		int x = this.x + WIDTH / 2 - Missile.getWidth() / 2;
 		int y = this.y + HEIGHT / 2 - Missile.getHeight() / 2;
-		return new Missile(x, y, dir);
+		return new Missile(x, y, gb.dir);
 	}
 	
 	public void keyPressed(KeyEvent e) {
@@ -132,6 +135,14 @@ public class Tank {
 
 	public static int getSpeed() {
 		return SPEED;
+	}
+
+	public static int getWidth() {
+		return WIDTH;
+	}
+
+	public static int getHeight() {
+		return HEIGHT;
 	}
 
 	
