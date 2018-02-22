@@ -230,6 +230,15 @@ class Tank {
 		return false;
 	}
 	
+	public boolean eatBlood(Blood b) {
+		if(this.isGood() && b.isLive() && this.getRect().intersects(b.getRect())) {
+			b.setLive(false);
+			this.life = 100;
+			return true;
+		}
+		return false;
+	}
+	
 	public Rectangle getRect() {
 		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
