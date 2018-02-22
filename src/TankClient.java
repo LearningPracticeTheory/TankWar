@@ -9,9 +9,11 @@ public class TankClient extends JFrame {
 	public final int GAME_WIDTH = 800;
 	public final int GAME_HEIGHT = 600;
 	
-	int x = 50, y = 50;
+//	int x = 50, y = 50;
 	
 	Image img = null;
+	
+	Tank myTank = new Tank(50, 50, this);
 	
 	public static void main(String args[]) {
 		new TankClient();
@@ -25,6 +27,9 @@ public class TankClient extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.BLACK);
+		
+		
+		
 		setVisible(true);
 		new Thread(new PaintThread()).start();
 		addKeyListener(new KeyMonitor());
@@ -32,10 +37,7 @@ public class TankClient extends JFrame {
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		Color c = g.getColor();
-		g.setColor(Color.RED);
-		g.fillOval(x, y, 30, 30);
-		g.setColor(c);
+		myTank.draw(g);
 		
 //		y += 8;
 	}
@@ -75,21 +77,7 @@ public class TankClient extends JFrame {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			int key = e.getKeyCode();
-			switch(key) {
-			case KeyEvent.VK_UP :
-				y -= 8;
-				break;
-			case KeyEvent.VK_DOWN :
-				y += 8;
-				break;
-			case KeyEvent.VK_LEFT :
-				x -= 8;
-				break;
-			case KeyEvent.VK_RIGHT :
-				x += 8;
-				break;
-			}
+			myTank.keyPressed(e);
 		}
 		
 	}
