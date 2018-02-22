@@ -29,6 +29,9 @@ class Tank {
 
 	public void draw(Graphics g) {
 		if(!live) {
+			if(!good) {
+				tc.tanks.remove(this);
+			}
 			return;
 		}
 		Color c = g.getColor();
@@ -48,7 +51,6 @@ class Tank {
 		int y = this.y + HEIGHT / 2 - Missile.getHeight() / 2;
 		return new Missile(x, y, gb.dir, tc);
 	}
-	
 	
 
 	public void direction() {
